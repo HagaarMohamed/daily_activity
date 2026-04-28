@@ -15,8 +15,8 @@ jobs:
 
       - name: Configure Git identity
         run: |
-          git config --global user.name "YOUR_USERNAME"
-          git config --global user.email "YOUR_EMAIL"
+          git config --global user.name "HagaarMohamed"
+          git config --global user.email "h.mohamed5432@gmail.com"
 
       - name: Make changes
         run: |
