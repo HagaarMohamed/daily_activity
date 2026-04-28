@@ -1,1 +1,31 @@
+name: Daily Auto Commit
 
+on:
+  schedule:
+    - cron: '0 0 * * *'   # runs daily at midnight UTC
+  workflow_dispatch:       # allows manual run
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Configure Git identity
+        run: |
+          git config --global user.name "YOUR_USERNAME"
+          git config --global user.email "YOUR_EMAIL"
+
+      - name: Make changes
+        run: |
+          mkdir -p logs
+          echo "Run at $(date)" >> logs/$(date +'%Y-%m').log
+          echo "Last run: $(date)" > STATUS.md
+
+      - name: Commit and push
+        run: |
+          git add .
+          git commit -m "Daily commit $(date)" || echo "No changes"
+          git push https://${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}.git
